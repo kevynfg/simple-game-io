@@ -7,6 +7,7 @@ const { insideBoundries, randomStyle, sendMessage } = require("./common");
 
 const SERVER_LIMIT = 10;
 const SERVER_FPS = 30;
+const SPEED = 5;
 
 let players = [];
 let inputsMap = {};
@@ -16,6 +17,7 @@ const port = 3003;
 
 app.use(express.static(path.join(__dirname, "public")));
 const server = createServer(app);
+
 const wss = new WebSocketServer({ server, clientTracking: true });
 
 async function main() {
@@ -84,10 +86,10 @@ async function main() {
   function tick(delta) {
     players.forEach((player) => {
       const inputs = inputsMap[player.id];
-      if (inputs.up) player.y -= properMod(5, 480);
-      if (inputs.down) player.y += properMod(5, 480);
-      if (inputs.left) player.x -= properMod(5, 640);
-      if (inputs.right) player.x += properMod(5, 640);
+      if (inputs.up) player.y -= properMod(5*SPEED, 480);
+      if (inputs.down) player.y += properMod(5*SPEED, 480);
+      if (inputs.left) player.x -= properMod(5*SPEED, 640);
+      if (inputs.right) player.x += properMod(5*SPEED, 640);
 
       if (player.x < 0) player.x = 640 - 5;
       if (player.x > 640) player.x = 0;
